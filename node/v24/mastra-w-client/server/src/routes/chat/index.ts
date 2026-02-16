@@ -7,7 +7,7 @@ import {
 } from "ai";
 import { mastra } from "../../mastra/index.js";
 
-const router = Router();
+const router: Router = Router();
 
 const THREAD_ID = "example-user-id";
 const RESOURCE_ID = "weather-chat";
