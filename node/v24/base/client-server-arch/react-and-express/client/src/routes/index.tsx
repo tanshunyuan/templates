@@ -4,6 +4,7 @@ import { axiosInstance } from "../lib/axios";
 import { useChat } from "@ai-sdk/react";
 import { DefaultChatTransport } from "ai";
 import { env } from "../env";
+import { Button } from "@/components/ui/button";
 
 export const Route = createFileRoute("/")({
   component: Index,
@@ -28,7 +29,7 @@ function Index() {
     <div className="p-2">
       <h3>Welcome Home!</h3>
       <p>data from server: {query.data?.data.message}</p>
-      <button onClick={() => sendMessage({ text: "go" })}>Go</button>
+      <Button onClick={() => sendMessage({ text: "go" })}>Go</Button>
       {messages.map((m) => (
         <div key={m.id}>
           {m.parts
