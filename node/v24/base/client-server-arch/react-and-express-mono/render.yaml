@@ -1,0 +1,48 @@
+# Render Blueprint spec: https://render.com/docs/blueprint-spec
+# Schema: https://render.com/schema/render.yaml.json
+version: "1"
+
+services:
+  - type: web
+    name: react-and-express-mono-server
+    runtime: node
+    region: oregon
+    plan: free
+    buildCommand: corepack enable && pnpm install --frozen-lockfile && pnpm --filter server build
+    startCommand: pnpm --filter server start
+    healthCheckPath: /healthcheck
+    envVars:
+      - key: NODE_VERSION
+        value: 24
+      - key: NODE_ENV
+        value: production
+    buildFilter:
+      paths:
+        - package.json
+        - pnpm-lock.yaml
+        - pnpm-workspace.yaml
+        - apps/server/**
+
+  - type: web
+    name: react-and-express-mono-client
+    runtime: static
+    buildCommand: corepack enable && pnpm install --frozen-lockfile && pnpm --filter client build
+    staticPublishPath: apps/client/dist
+    envVars:
+      - key: NODE_VERSION
+        value: 24
+      - key: VITE_SERVER_URL
+        fromService:
+          type: web
+          name: react-and-express-mono-server
+          envVarKey: RENDER_EXTERNAL_URL
+    routes:
+      - type: rewrite
+        source: /*
+        destination: /index.html
+    buildFilter:
+      paths:
+        - package.json
+        - pnpm-lock.yaml
+        - pnpm-workspace.yaml
+        - apps/client/**
