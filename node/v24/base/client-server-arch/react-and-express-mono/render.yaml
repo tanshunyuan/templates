@@ -29,7 +29,7 @@ services:
     runtime: static
     rootDir: node/v24/base/client-server-arch/react-and-express-mono
     buildCommand: corepack enable && pnpm install --frozen-lockfile && pnpm build
-    staticPublishPath: dist
+    staticPublishPath: apps/client/dist
     envVars:
       - key: NODE_VERSION
         value: 24
