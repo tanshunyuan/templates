@@ -6,10 +6,11 @@ services:
   - type: web
     name: react-and-express-mono-server
     runtime: node
+    rootDir: node/v24/base/client-server-arch/react-and-express-mono
     region: oregon
     plan: free
-    buildCommand: corepack enable && pnpm install --frozen-lockfile && pnpm --filter server build
-    startCommand: pnpm --filter server start
+    buildCommand: corepack enable && pnpm install --frozen-lockfile && pnpm build
+    startCommand: pnpm start
     healthCheckPath: /healthcheck
     envVars:
       - key: NODE_VERSION
@@ -26,8 +27,9 @@ services:
   - type: web
     name: react-and-express-mono-client
     runtime: static
-    buildCommand: corepack enable && pnpm install --frozen-lockfile && pnpm --filter client build
-    staticPublishPath: apps/client/dist
+    rootDir: node/v24/base/client-server-arch/react-and-express-mono
+    buildCommand: corepack enable && pnpm install --frozen-lockfile && pnpm build
+    staticPublishPath: dist
     envVars:
       - key: NODE_VERSION
         value: 24
